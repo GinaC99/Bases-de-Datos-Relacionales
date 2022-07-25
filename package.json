@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "express": "^4.18.1",
+    "knex": "^2.2.0",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.19",
+    "socket.io": "^4.5.1",
+    "sqlite3": "^5.0.10"
+  },
+  "name": "basesdedatos",
+  "version": "1.0.0",
+  "description": "Usando HTML y websockets mariaDB y SQLITE",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "websockets"
+  ],
+  "author": "Gina Cortes",
+  "license": "ISC"
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSockets</title>
+</head>
+
+<body>
+    <h1>Ingrese un producto</h1>
+    <form>
+        <div>
+            <label>Title</label>
+            <input type="text" name="title" id='value__tittle'>
+        </div>
+        <div>
+            <label>Thumbnail</label>
+            <input type="text" name="thumbnail" id='value__thumbnail'>
+        </div>
+        <div>
+            <label>Price</label>
+            <input type="text" name="price" id='value__price'>
+        </div>
+        <div>
+            <button onclick={createProducts()} type="submit">Agregar Producto</button>
+        </div>
+    </form>
+    <h1>Ingrese un mensaje</h1>
+    <form>
+        <div>
+            <label>Email</label>
+            <input type="email" name="correo" id="correo">
+        </div>
+        <div>
+            <label>Mensaje</label>
+            <input type="text" name="mensaje" id="mensaje">
+        </div>
+        <div>
+            <button onclick={enviarMensaje()} type="submit">Agregar Producto</button>
+        </div>
+    </form>
+    <div id="productos"></div>
+    <br>
+    <br>
+    <div id="Mensajes"></div>
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- <script src="http://localhost:8080/socket.io/socket.io.js"></script> -->
+    <script src='index.js'></script>
+
+</body>
+
+</html>
