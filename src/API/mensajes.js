@@ -1,20 +1,30 @@
-const { knexSqLite } = require('./../DB/databasemysql3')
-const { createMesag } = require('./../DB/CRUD/index')
-
-
+const Msg = require('./../DB/CRUD/NOSQL/MsgSchema')
+const mongoose = require('mongoose')
+const { normalize, schema } = require('normalizr');
+const main = require('./../DB/CRUD/NOSQL/conect')
+main()
 class mensaje {
 
-    async mensaje(Mensaje) {
+    async mensaje({ author, text }) {
         try {
-            if (createMesag) {
-                const insertMensaje = await knexSqLite('mensajes').insert(Mensaje)
+            if ({ author, text }) {
+                const data = { author, text }
+                const authosMsg = new schema.Entity('author', {
+                    author: author,
+                    text: text
+                })
+                const noralizedObject = normalize(data, authosMsg)
+                console.log(JSON.stringify(noralizedObject))
+                const dataSave = new Msg(data)
+                dataSave.save()
+                return JSON.stringify(noralizedObject, null, '\t')
             }
         } catch (e) {
             console.log(e)
         }
     }
     async allMessages() {
-        const viewAllMens = await knexSqLite.from('mensajes').select('*')
+        const viewAllMens = await Msg.find({})
         return viewAllMens
     }
 };

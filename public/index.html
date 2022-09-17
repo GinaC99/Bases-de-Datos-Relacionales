@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 
-<head>
+<head>      
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,17 +30,38 @@
     <h1>Ingrese un mensaje</h1>
     <form>
         <div>
+            <label>Nombre</label>
+            <input type="text" name="nombreUser" id="nombreUser">
+        </div>
+        <div>
             <label>Email</label>
             <input type="email" name="correo" id="correo">
+        </div>
+        <div>
+            <label>Apellidos</label>
+            <input type="text" name="lastNameUser" id="lastNameUser">
+        </div>
+        <div>
+            <label>Edad</label>
+            <input type="number" name="ageUser" id="ageUser">
+        </div>
+        <div>
+            <label>Apodo</label>
+            <input type="text" name="nickNameUser" id="nickNameUser">
+        </div>
+        <div>
+            <label>Avatar</label>
+            <input type="text" name="avatarUser" id="avatarUser">
         </div>
         <div>
             <label>Mensaje</label>
             <input type="text" name="mensaje" id="mensaje">
         </div>
         <div>
-            <button onclick={enviarMensaje()} type="submit">Agregar Producto</button>
+            <button onclick={enviarMensaje()} type="submit">Enviar Mensaje</button>
         </div>
     </form>
+    <div id="tabla"></div>
     <div id="productos"></div>
     <br>
     <br>

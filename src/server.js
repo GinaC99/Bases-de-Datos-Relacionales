@@ -5,6 +5,9 @@ const { Server: HTTPServer } = require('http');
 const { Server: IOServer } = require('socket.io');
 const Producto = new Contenedor();
 const Mensajes = new mensaje()
+const FakerData = require('./API/productos-test')
+const newFakerata = new FakerData
+
 
 const app = express();
 const httpServer = new HTTPServer(app)
@@ -22,24 +25,24 @@ app.get('/', (req, res) => {
     res.render('index')
 })
 
-
 io.on('connection', async (socket) => {
     console.log(`Cliente listo y conectado`)
 
     //todos los mensajes con el socket
     socket.emit('mensajes', await Mensajes.allMessages())
 
-    //*estar pendiente al mensaje entranate
-    socket.on('newMsg', async ({ email, mensaje }) => {
-        const mensajeAll = {}
-        mensajeAll.email = email;
-        mensajeAll.mensaje = mensaje;
-        await Mensajes.mensaje(mensajeAll)
+    socket.on('newMsg', async ({ author, text, }) => {
+        const mensajeAll = {
+            author,
+            text
+        }
+        const data = await Mensajes.mensaje(mensajeAll)
+        console.log(data)
         socket.emit('mensajes', await Mensajes.allMessages())
     })
-
     socket.on('newProduct', async (objectProducts) => {
         await Producto.save(objectProducts)
     })
     socket.emit('showProducts', await Producto.getAll())
+    socket.emit('Tabla', await newFakerata.GenData())
 })

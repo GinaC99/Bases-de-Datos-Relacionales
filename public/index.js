@@ -11,35 +11,71 @@ const CreatedNewProduct = () => {
     socket.emit('newProduct')
 }
 
-socket.on('showProducts',(responseBack) => {
-    responseBack.map((responsedata)=>{
+socket.on('showProducts', (responseBack) => {
+    responseBack.map((responsedata) => {
         const showviews = document.createElement('div')
-        Object.keys(responsedata).map((nameTitles=>{
+        Object.keys(responsedata).map((nameTitles => {
             showviews.innerHTML += `${nameTitles}: ${responsedata[nameTitles]}` + '<br/>'
             document.getElementById("productos").appendChild(showviews)
         }))
-        
+
     })
 })
 
 socket.on('mensajes', (responseBack) => {
-    responseBack.map((responsedata)=>{
+    responseBack.map((responsedata) => {
         const showviews = document.createElement('div')
-        Object.keys(responsedata).map((nameTitles=>{
-            showviews.innerHTML += `${nameTitles}: ${responsedata[nameTitles]}` + '<br/>'
+        Object.keys(responsedata).map((nameTitles => {
+            showviews.innerHTML += `${nameTitles}: ${JSON.stringify(responsedata[(nameTitles)])}` + '<br/>'
             document.getElementById("Mensajes").appendChild(showviews)
         }))
-        
+
     })
 })
 
-const enviarMensaje = () => {
-    const email = document.getElementById('correo').value
+const enviarMensaje = () => { // cambiar esto
+    const nombre = document.getElementById('nombreUser').value
+    const id = document.getElementById('correo').value
+    const apellido = document.getElementById('lastNameUser').value
     const mensaje = document.getElementById('mensaje').value
+    const edad = document.getElementById('ageUser').value
+    const alias = document.getElementById('nickNameUser').value
+    const avatar = document.getElementById('avatarUser').value
 
     socket.emit('newMsg', {
-        email: email,
-        mensaje: mensaje
+        author: {
+            nombre,
+            apellido,
+            id,
+            edad,
+            alias,
+            avatar
+        },
+        text: mensaje,
     })
 }
+
+socket.on('Tabla', (responseDataFaker) => {
+    const codHTML = document.createElement("table");
+    codHTML.innerHTML += "<tr>"
+    Object.keys(responseDataFaker).map((nameTItles) => {
+        codHTML.innerHTML += `<th> ${nameTItles} </th> `
+    })
+    codHTML.innerHTML += "</tr>"
+    codHTML.innerHTML += "<tbody>"
+    for (let i = 0; i <= 4; i++) {
+        codHTML.innerHTML += "<tr>"
+        Object.keys(responseDataFaker).map((resonseData) => { // Columnas
+            if (resonseData === 'Imagen') {
+                codHTML.innerHTML += `<img src=${responseDataFaker[resonseData][i]} />` + '   '
+            } else {
+                codHTML.innerHTML += `${responseDataFaker[resonseData][i]}` + '   '
+
+            }
+        })
+        codHTML.innerHTML += "</tr>"
+    }
+    codHTML.innerHTML += "</tbody></table>"
+    document.getElementById('tabla').appendChild(codHTML);
+})
 

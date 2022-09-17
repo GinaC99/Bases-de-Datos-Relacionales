@@ -1,0 +1,24 @@
+<div>
+    <h1>Ingresa un producto</h1>
+    <form action="/productos" method="post">
+        <input type="text" name="title" placeholder="title" id="title" />
+        <input type="number" name="price" placeholder="price" id="price"/>
+        <input type="text" name="thumbnail" placeholder="thumbnail" id="thumbnail"/>
+        <button type="submit">Guardar el producto</button>
+    </form>
+    <div>
+        <h1> Para ingresar al chat por favor dejas sus datos</h1>
+        <form action="/messag/productos" method="post"> {{!--Cambio-  --}}
+        <input type="text" name="email" placeholder="email" id="email" required/>
+        <input type="number" name="mensaje" placeholder="mensaje" id="mensaje"/>
+        <button type="submit">Enviar Mensaje</button>
+    </form>
+    </div> {{!-- este es del chat--}}
+    <div>
+        <h1>Estos son los Productos Registrados</h1>
+        <p></p>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src='index.js'></script>
+
+    </div>
+</div>
