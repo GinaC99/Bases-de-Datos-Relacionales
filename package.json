@@ -1,0 +1,37 @@
+{
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "express": "^4.18.1",
+    "mongose": "^0.0.2-security",
+    "nodemon": "^2.0.20"
+  },
+  "name": "coder",
+  "description": "En la rama de Normalized, se encuentra el trabajo relacionado a la nromalizacion de los datos",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GinaC99/Bases-de-Datos-Relacionales.git"
+  },
+  "keywords": [
+    "cookies",
+    "session",
+    "storage",
+    "mongoDb",
+    "express",
+    "handlebarse",
+    "normalizer"
+  ],
+  "author": "Gina Cortes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GinaC99/Bases-de-Datos-Relacionales/issues"
+  },
+  "homepage": "https://github.com/GinaC99/Bases-de-Datos-Relacionales#readme"
+}
