@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSockets</title>
+</head>
+
+<body>
+    <h1>Ingrese un producto</h1>
+    <form>
+        <div>
+            <label>Title</label>
+            <input type="text" name="title" id='value__tittle'>
+        </div>
+        <div>
+            <label>Thumbnail</label>
+            <input type="text" name="thumbnail" id='value__thumbnail'>
+        </div>
+        <div>
+            <label>Price</label>
+            <input type="text" name="price" id='value__price'>
+        </div>
+        <div>
+            <button onclick={createProducts()} type="submit">Agregar Producto</button>
+        </div>
+    </form>
+    <h1>Ingrese un mensaje</h1>
+    <form>
+        <div>
+            <label>Nombre</label>
+            <input type="text" name="nombreUser" id="nombreUser">
+        </div>
+        <div>
+            <label>Email</label>
+            <input type="email" name="correo" id="correo">
+        </div>
+        <div>
+            <label>Apellidos</label>
+            <input type="text" name="lastNameUser" id="lastNameUser">
+        </div>
+        <div>
+            <label>Edad</label>
+            <input type="number" name="ageUser" id="ageUser">
+        </div>
+        <div>
+            <label>Apodo</label>
+            <input type="text" name="nickNameUser" id="nickNameUser">
+        </div>
+        <div>
+            <label>Avatar</label>
+            <input type="text" name="avatarUser" id="avatarUser">
+        </div>
+        <div>
+            <label>Mensaje</label>
+            <input type="text" name="mensaje" id="mensaje">
+        </div>
+        <div>
+            <button onclick={enviarMensaje()} type="submit">Enviar Mensaje</button>
+        </div>
+    </form>
+    <div id="tabla"></div>
+    <div id="productos"></div>
+    <br>
+    <br>
+    <div id="Mensajes"></div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src='index.js'></script>
+    <button>Salir</button>
+
+</body>
+
+</html>

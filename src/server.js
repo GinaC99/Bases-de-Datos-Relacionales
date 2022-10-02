@@ -1,16 +1,17 @@
-const Contenedor = require('./API/productos.js')
+// const Contenedor = require('./API/productos.js')
 const mensaje = require('./API/mensajes')
 const express = require('express');
 const { Server: HTTPServer } = require('http');
 const { Server: IOServer } = require('socket.io');
-const Producto = new Contenedor();
+// const Producto = new Contenedor();
 const Mensajes = new mensaje()
 const FakerData = require('./API/productos-test')
 const newFakerata = new FakerData
-
+const cookiesParser = require('cookie-parser')
 
 const app = express();
 const httpServer = new HTTPServer(app)
+app.use(cookiesParser())
 const io = new IOServer(httpServer);
 const PORT = 8080;
 
@@ -24,6 +25,15 @@ httpServer.listen(PORT, () => {
 app.get('/', (req, res) => {
     res.render('index')
 })
+
+app.post('/login', (req, res) => {
+    console.log('esa aca')
+    // const name = 
+    // res.cookie('nameUser', name).send()
+})
+
+
+
 
 io.on('connection', async (socket) => {
     console.log(`Cliente listo y conectado`)
@@ -43,6 +53,6 @@ io.on('connection', async (socket) => {
     socket.on('newProduct', async (objectProducts) => {
         await Producto.save(objectProducts)
     })
-    socket.emit('showProducts', await Producto.getAll())
-    socket.emit('Tabla', await newFakerata.GenData())
+    // socket.emit('showProducts', await Producto.getAll())
+    // socket.emit('Tabla', await newFakerata.GenData())
 })
