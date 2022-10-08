@@ -12,6 +12,25 @@ const documento = document;
     }
 })();
 
+const logOut = () => {
+    const options = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
+    fetch('/register', options)
+        .then(responseData => {
+            const name = window.localStorage.getItem('nameUser')
+            console.log(name)
+            alert(`Hasta luego ${name}`)
+            window.localStorage.clear()
+            window.location.href = './index.html'
+        })
+        .catch(e => console.log(e))
+}
+
+
 const CreatedNewProduct = () => {
     const title = document.getElementById('value__tittle').value
     const thumbnail = document.getElementById('value__thumbnail').value
@@ -91,11 +110,3 @@ socket.on('Tabla', (responseDataFaker) => {
     codHTML.innerHTML += "</tbody></table>"
     document.getElementById('tabla').appendChild(codHTML);
 })
-
-const salir = () => {
-    fetch.get('/logOut', {
-        method: GET,
-    }).then(responseDta => {
-        alert(JSON.stringify(responseDta))
-    })
-}

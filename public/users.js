@@ -19,8 +19,9 @@ const registerUser = () => {
         .then(responseData => {
             return responseData.json()
         }).then(data => {
-            const { name } = data
-            window.localStorage.setItem('nameUser', name)
+            const { nameUser } = data
+            window.localStorage.setItem('nameUser', nameUser)
+            window.location.href = './showProduct.html'
         })
         .catch(e => console.log(e))
 }
