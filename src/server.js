@@ -8,6 +8,9 @@ const session = require('express-session')
 const userActions = require('./API/registerPeople')
 const user = new userActions()
 const MongoStore = require('connect-mongo')
+const productos = require('./API/products')
+const product = new productos()
+
 
 const app = express();
 const httpServer = new HTTPServer(app)
@@ -101,8 +104,10 @@ io.on('connection', async (socket) => {
         console.log(data)
         socket.emit('mensajes', await Mensajes.allMessages())
     })
+    socket.emit('showProducts', await product.getAll())
+
     socket.on('newProduct', async (objectProducts) => {
-        await Producto.save(objectProducts)
+        await product.save(objectProducts)
     })
 
 })

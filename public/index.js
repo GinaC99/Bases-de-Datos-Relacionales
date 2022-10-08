@@ -20,7 +20,7 @@ const CreatedNewProduct = () => {
     ObjetoProduct.title = title;
     ObjetoProduct.thumbnail = thumbnail;
     ObjetoProduct.price = price;
-    socket.emit('newProduct')
+    socket.emit('newProduct', ObjetoProduct)
 }
 
 
