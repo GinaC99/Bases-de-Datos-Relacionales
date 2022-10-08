@@ -13,16 +13,20 @@
         <div>
             <h1>Bienvenidos</h1>
             <section>
-                <div>
-                    Correo: <input type="email">
-                </div>
-                <div>
-                    Contraseña: <input type="password">
-                </div>
+                <form>
+                    <label>
+                        Correo: <input type="email" id="email">
+                    </label>
+                    <label>
+                        Contraseña: <input type="password" id="password">
+                    </label>
+                </form>
+                <button onclick={loginUser()}>Ingresar</button>
             </section>
         </div>
     </div>
     <a href="./register.html">Registro</a>
+    <script src='users.js'></script>
 </body>
 
 </html>

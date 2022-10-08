@@ -1,20 +1,33 @@
-// const Contenedor = require('./API/productos.js')
 const mensaje = require('./API/mensajes')
 const express = require('express');
 const { Server: HTTPServer } = require('http');
 const { Server: IOServer } = require('socket.io');
-// const Producto = new Contenedor();
 const Mensajes = new mensaje()
-const FakerData = require('./API/productos-test')
-const newFakerata = new FakerData
 const cookiesParser = require('cookie-parser')
+const session = require('express-session')
+const userActions = require('./API/registerPeople')
+const user = new userActions()
+const MongoStore = require('connect-mongo')
 
 const app = express();
 const httpServer = new HTTPServer(app)
-app.use(cookiesParser())
+app.use(cookiesParser('PalabraSecreta'))
+app.use(session({
+    store: MongoStore.create({
+        mongoUrl: 'mongodb+srv://PruebaG:PruebaG@cluster0.vdfyf.mongodb.net/test',
+        mongoOptions: {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        },
+        ttl: 3600
+    }),
+    secret: 'SecetoPrueba',
+    resave: true,
+    saveUninitialized: true
+}))
 const io = new IOServer(httpServer);
 const PORT = 8080;
-
+app.use(express.json());
 
 app.use(express.static('public'));
 
@@ -26,12 +39,50 @@ app.get('/', (req, res) => {
     res.render('index')
 })
 
-app.post('/login', (req, res) => {
-    console.log('esa aca')
-    // const name = 
-    // res.cookie('nameUser', name).send()
+app.post('/register', async (req, res) => {
+    console.log('incoming request in register')
+    const { name, id, email, password } = req.body
+    const dataSend = {
+        name, id, email, password,
+        role: 'user'
+    }
+    const response = await user.register(dataSend)
+    req.session.user = {
+        email,
+        name,
+    }
+    res.status(200).send({ nameUser: name })
 })
 
+app.post('/login', async (req, res) => {
+    console.log('incoming request in login')
+    const { email, password } = req.body
+    try {
+        const reponseDataUser = await user.login(password, email)
+        const { role, name } = reponseDataUser
+        if (reponseDataUser) req.session.user = {
+            email,
+            role,
+            name,
+        }
+        res.status(200).send({ nameUser: name })
+    } catch (e) {
+        console.log(e)
+        return res.status(500).send('Estamos presentando Problemas tecnicos')
+    }
+
+})
+
+app.get('/logOut', (req, res) => {
+    req.session.destroy(err => {
+        if (err) return res.status(500).send({ error: err })
+        res.send("Logged out")
+    })
+})
+
+app.get('/current', (req, res) => {
+    res.status(200).send(req.session.user)
+})
 
 
 
@@ -53,6 +104,5 @@ io.on('connection', async (socket) => {
     socket.on('newProduct', async (objectProducts) => {
         await Producto.save(objectProducts)
     })
-    // socket.emit('showProducts', await Producto.getAll())
-    // socket.emit('Tabla', await newFakerata.GenData())
+
 })

@@ -1,7 +1,6 @@
-const Msg = require('./../DB/CRUD/NOSQL/MsgSchema')
-const mongoose = require('mongoose')
+const Msg = require('./../DB/CRUD/MsgSchema')
 const { normalize, schema } = require('normalizr');
-const main = require('./../DB/CRUD/NOSQL/conect')
+const main = require('../DB/CRUD/conect')
 main()
 class mensaje {
 

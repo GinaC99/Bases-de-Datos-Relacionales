@@ -1,5 +1,17 @@
 const socket = io();
 
+const documento = document;
+
+(function () {
+    const user = window.localStorage.getItem('nameUser')
+    if (user) {
+        const htmluser = document.getElementById('userName')
+        const htmlData = document.createElement('h1')
+        htmlData.innerHTML += `${user}`;
+        htmluser.appendChild(htmlData);
+    }
+})();
+
 const CreatedNewProduct = () => {
     const title = document.getElementById('value__tittle').value
     const thumbnail = document.getElementById('value__thumbnail').value
@@ -10,6 +22,7 @@ const CreatedNewProduct = () => {
     ObjetoProduct.price = price;
     socket.emit('newProduct')
 }
+
 
 socket.on('showProducts', (responseBack) => {
     responseBack.map((responsedata) => {
@@ -79,3 +92,10 @@ socket.on('Tabla', (responseDataFaker) => {
     document.getElementById('tabla').appendChild(codHTML);
 })
 
+const salir = () => {
+    fetch.get('/logOut', {
+        method: GET,
+    }).then(responseDta => {
+        alert(JSON.stringify(responseDta))
+    })
+}
