@@ -5,34 +5,39 @@ const { Server: IOServer } = require('socket.io');
 const Mensajes = new mensaje()
 const cookiesParser = require('cookie-parser')
 const session = require('express-session')
-const userActions = require('./API/registerPeople')
-const user = new userActions()
+// const userActions = require('./API/registerPeople')
+// const user = new userActions()
 const MongoStore = require('connect-mongo')
 const productos = require('./API/products')
 const product = new productos()
-
+const passport = require('passport')
+const initializePassport = require('./config/passport.config.js')
 
 const app = express();
 const httpServer = new HTTPServer(app)
 app.use(cookiesParser('PalabraSecreta'))
 app.use(session({
+    secret: 'SecretoPrueba',
     store: MongoStore.create({
         mongoUrl: 'mongodb+srv://PruebaG:PruebaG@cluster0.vdfyf.mongodb.net/test',
         mongoOptions: {
             useNewUrlParser: true,
             useUnifiedTopology: true
         },
-        ttl: 3600
+        ttl: 360
     }),
-    secret: 'SecetoPrueba',
-    resave: true,
-    saveUninitialized: true
+    resave: false,
+    saveUninitialized: false
 }))
 const io = new IOServer(httpServer);
 const PORT = 8080;
 app.use(express.json());
 
 app.use(express.static('public'));
+
+initializePassport()
+app.use(passport.initialize());
+app.use(passport.session());
 
 httpServer.listen(PORT, () => {
     console.log('Hey el server esta funcionando en el puerto ', PORT)
@@ -42,26 +47,28 @@ app.get('/', (req, res) => {
     res.render('index')
 })
 
-app.post('/register', async (req, res) => {
+app.post('/register', passport.authenticate('register', { failureRedirect: '/registerFail' }), async (req, res) => {
     console.log('incoming request in register')
-    const { name, id, email, password } = req.body
-    const dataSend = {
-        name, id, email, password,
-        role: 'user'
-    }
-    const response = await user.register(dataSend)
-    req.session.user = {
-        email,
-        name,
-    }
-    res.status(200).send({ nameUser: name })
+    console.log(req.user)
+
+    // req.session.user = {
+    //     email,
+    //     name,
+    // }
+    // res.status(200).send({ nameUser: name })
 })
+
+app.get('/registerFail', async () => {
+    console.log('e')
+})
+
 
 app.post('/login', async (req, res) => {
     console.log('incoming request in login')
     const { email, password } = req.body
     try {
         const reponseDataUser = await user.login(password, email)
+        if (!reponseDataUser) return res.status(400).send({ data: 'Contraseña erronea' })
         const { role, name } = reponseDataUser
         if (reponseDataUser) req.session.user = {
             email,
@@ -84,7 +91,12 @@ app.get('/logOut', (req, res) => {
 })
 
 app.get('/current', (req, res) => {
-    res.status(200).send(req.session.user)
+    console.log(req.session.user)
+    if (!req.session.user) {
+        console.log('hey')
+        return res.redirect('/')
+    }
+    return res.status(200).send({ existSessionUser: true })
 })
 
 

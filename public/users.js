@@ -29,7 +29,7 @@ const registerUser = () => {
 const loginUser = () => {
     const email = document.getElementById('email').value
     const password = document.getElementById('password').value
-
+    let validateData = false
     const data = {
         password, email
     }
@@ -46,7 +46,9 @@ const loginUser = () => {
         })
         .then(data => {
             const { nameUser } = data
+            if (!nameUser) return alert('contraseña incorrecta')
+            validateData = true
             window.localStorage.setItem('nameUser', nameUser)
-        }).then(response => window.location.href = './showProduct.html')
+        }).then(response => { if (validateData) window.location.href = './showProduct.html' })
         .catch(e => console.log(e))
 }

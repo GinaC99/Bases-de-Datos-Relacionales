@@ -19,10 +19,9 @@ const logOut = () => {
             'Content-Type': 'application/json',
         },
     };
-    fetch('/register', options)
+    fetch('/logOut', options)
         .then(responseData => {
             const name = window.localStorage.getItem('nameUser')
-            console.log(name)
             alert(`Hasta luego ${name}`)
             window.localStorage.clear()
             window.location.href = './index.html'
@@ -44,25 +43,59 @@ const CreatedNewProduct = () => {
 
 
 socket.on('showProducts', (responseBack) => {
-    responseBack.map((responsedata) => {
-        const showviews = document.createElement('div')
-        Object.keys(responsedata).map((nameTitles => {
-            showviews.innerHTML += `${nameTitles}: ${responsedata[nameTitles]}` + '<br/>'
-            document.getElementById("productos").appendChild(showviews)
-        }))
+    const options = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
+    fetch('/current', options)
+        .then(responseData => {
+            return responseData.json()
+        }).then(data => {
+            const { existSessionUser } = data
+            console.log(existSessionUser)
+            if (existSessionUser === true) {
+                return responseBack.map((responsedata) => {
+                    const showviews = document.createElement('div')
+                    Object.keys(responsedata).map((nameTitles => {
+                        showviews.innerHTML += `${nameTitles}: ${responsedata[nameTitles]}` + '<br/>'
+                        document.getElementById("productos").appendChild(showviews)
+                    }))
 
-    })
+                })
+            }
+        }).catch(e => {
+            window.location.href = './index.html'
+        })
+
 })
 
 socket.on('mensajes', (responseBack) => {
-    responseBack.map((responsedata) => {
-        const showviews = document.createElement('div')
-        Object.keys(responsedata).map((nameTitles => {
-            showviews.innerHTML += `${nameTitles}: ${JSON.stringify(responsedata[(nameTitles)])}` + '<br/>'
-            document.getElementById("Mensajes").appendChild(showviews)
-        }))
+    const options = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
+    fetch('/current', options)
+        .then(responseData => {
+            return responseData.json()
+        }).then(data => {
+            const { existSessionUser } = data
+            if (existSessionUser === true) {
+                return responseBack.map((responsedata) => {
+                    const showviews = document.createElement('div')
+                    Object.keys(responsedata).map((nameTitles => {
+                        showviews.innerHTML += `${nameTitles}: ${JSON.stringify(responsedata[(nameTitles)])}` + '<br/>'
+                        document.getElementById("Mensajes").appendChild(showviews)
+                    }))
 
-    })
+                })
+            }
+        }).catch(e => {
+            window.location.href = './index.html'
+        })
 })
 
 const enviarMensaje = () => { // cambiar esto
