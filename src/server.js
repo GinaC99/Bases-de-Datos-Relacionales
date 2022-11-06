@@ -59,7 +59,7 @@ app.post('/register', passport.authenticate('register', { failureRedirect: '/reg
 })
 
 app.get('/registerFail', async () => {
-    console.log('e')
+    res.redirect('failLogs')
 })
 
 
@@ -78,7 +78,7 @@ app.post('/login', async (req, res) => {
         res.status(200).send({ nameUser: name })
     } catch (e) {
         console.log(e)
-        return res.status(500).send('Estamos presentando Problemas tecnicos')
+        return res.redirect('failLogs')
     }
 
 })
